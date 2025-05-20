@@ -206,14 +206,12 @@ export default function DocumentPanel({
                   </div>
                   <div>
                     <Label htmlFor="model" className="text-sm text-gray-700 block mb-1">Model</Label>
-                    <Select defaultValue="gpt-3.5-turbo">
+                    <Select defaultValue="llama-3-8b">
                       <SelectTrigger id="model" className="w-full">
                         <SelectValue placeholder="Select model" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="gpt-3.5-turbo">GPT-3.5 Turbo</SelectItem>
-                        <SelectItem value="gpt-4o">GPT-4o</SelectItem>
-                        <SelectItem value="claude-2">Claude-2</SelectItem>
+                        <SelectItem value="llama-3-8b">LLaMA 3 (8B)</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>

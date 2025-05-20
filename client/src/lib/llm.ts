@@ -2,7 +2,7 @@ import { TextChunk } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { marked } from 'marked';
 
-// Generate answer using LLM (OpenAI)
+// Generate answer using LLM (Replicate's LLaMA model)
 export async function generateAnswer(
   question: string,
   relevantChunks: TextChunk[]
@@ -39,7 +39,6 @@ Given the context information and not prior knowledge, answer the question: ${qu
     // Send request to the API
     const response = await apiRequest('POST', '/api/generate', {
       messages,
-      model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
       temperature: 0.5,
       max_tokens: 1000
     });
