@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { UploadCloud, Book, File, MoreVertical, Plus } from "lucide-react";
+import { UploadCloud, Book, FileText, File, MoreVertical, Plus } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,7 +15,7 @@ export interface PreloadedDocument {
   title: string;
   filename: string;
   category?: string;
-  icon?: React.ReactNode;
+  iconType?: string;
 }
 
 interface DocumentSidebarProps {
@@ -38,7 +38,12 @@ export default function DocumentSidebar({
     (doc.category && doc.category.toLowerCase().includes(searchQuery.toLowerCase()))
   );
   
-  const categories = [...new Set(preloadedDocuments.map(doc => doc.category).filter(Boolean))];
+  // Create a set of categories from the preloaded documents
+  const categorySet = new Set<string>();
+  preloadedDocuments.forEach(doc => {
+    if (doc.category) categorySet.add(doc.category);
+  });
+  const categories = Array.from(categorySet);
   
   return (
     <div className="w-64 border-r border-gray-200 h-screen flex flex-col bg-white">
@@ -146,7 +151,13 @@ function DocumentItem({ document, isSelected, onSelect }: DocumentItemProps) {
       onClick={onSelect}
     >
       <div className="flex items-center space-x-2 truncate">
-        {document.icon || <File className="h-4 w-4 flex-shrink-0 text-gray-500" />}
+        {document.iconType === 'book' ? (
+          <Book className="h-4 w-4 flex-shrink-0 text-emerald-500" />
+        ) : document.iconType === 'file-text' ? (
+          <FileText className="h-4 w-4 flex-shrink-0 text-blue-500" />
+        ) : (
+          <File className="h-4 w-4 flex-shrink-0 text-gray-500" />
+        )}
         <span className="truncate">{document.title}</span>
       </div>
       

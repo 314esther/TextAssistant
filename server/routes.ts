@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import Replicate from "replicate";
+import path from "path";
 
 // Format messages from OpenAI format to LLaMA prompt format
 function formatMessagesForLlama(messages: any[]) {
@@ -26,6 +27,23 @@ function formatMessagesForLlama(messages: any[]) {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Serve static files from the documents directory
+  app.use('/documents', (req, res, next) => {
+    const options = {
+      root: path.join(process.cwd(), 'documents'),
+      dotfiles: 'deny' as 'deny',
+      headers: {
+        'Content-Type': 'text/plain',
+      }
+    };
+    
+    const fileName = req.path;
+    res.sendFile(fileName, options, (err) => {
+      if (err) {
+        next(err);
+      }
+    });
+  });
   // Replicate LLaMA proxy endpoint to avoid exposing API token to client
   app.post("/api/generate", async (req, res) => {
     try {
