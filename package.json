@@ -109,4 +109,5 @@
   "optionalDependencies": {
     "bufferutil": "^4.0.8"
   }
+  "homepage": "https://314esther.github.io/TextAssistant/"
 }
